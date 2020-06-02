@@ -1,0 +1,41 @@
+Quickstart:
+
+	1. make sure jdk 1.8+ and mvn3+ are installed
+	2. from the base directory, run: mvn clean package 
+
+This Project is for the programming Test, The Requirements as below:
+Input:
+
+Transactions
+
+TransactionID TradeID Version SecurityCode Quantity Insert/Update/Cancel Buy/Sell
+1 1 1 REL 50 INSERT Buy
+2 2 1 ITC 40 INSERT Sell
+3 3 1 INF 70 INSERT Buy
+4 1 2 REL 60 UPDATE Buy
+5 2 2 ITC 30 CANCEL Buy
+6 4 1 INF 20 INSERT Sell
+
+TransactionID: Primary key
+TradeID: Trade Identifier
+Version: Starts with 1 for given Trade ID
+SecurityCode: Security Identifier e.g. INF => Infosys
+Quantity: Quantity of security e.g. 10 Infosys shares
+
+
+Output:
+
+Position
+REL +60
+ITC 0
+INF +50
+
+
+Rules:
+ 1.The Positions should be updated after each transaction e.g. once transaction 1 and 2 has 
+arrived, the positions would be REL= +50 and ITC= -40
+ 2.INSERT / UPDATE / CANCEL are actions on a Trade (with same trade id but different version)
+ 3.INSERT will always be 1st version of a Trade, CANCEL will always be last version of Trade.
+ 4.For UPDATE, SecurityCode or Quantity or Buy/Sell can change
+ 5.For CANCEL, any changes in SecurityCode or Quantity or Buy/Sell may change and should be ignored
+ 6.The transactions can arrive in any sequence
